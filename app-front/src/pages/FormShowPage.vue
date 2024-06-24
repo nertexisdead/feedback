@@ -8,8 +8,19 @@
         ">
             <div v-if="feedback.isLoaded" class="flex flex-col">
                 <h1 class="text-3xl font-medium text-gray-500">{{ feedback.title }}</h1>
-                <p class="text-sm text-gray-400">{{ datetime }}</p>
+                <p class="text-sm text-gray-400">{{ feedback.datetime }}</p>
+                <div class="flex items-center gap-x-2 text-lg">
+                    <span class="font-medium text-gray-500">Сервис:</span>
+                    <span class="text-gray-500">{{ feedback.service }}</span>
+                </div>
                 <p class="text-base mt-2 text-gray-500">{{ feedback.description }}</p>
+                <div class="flex items-center gap-x-2 text-lg">
+                    <span class="font-medium text-gray-500">Оценка:</span>
+                    <template v-for="star in 5">
+                            <span v-if="star <= feedback.rating" class="text-yellow-300 cursor-pointer">⭐️</span>
+                            <span v-else class="text-gray-300 cursor-pointer">☆</span>
+                    </template>
+                </div>
             </div>
             <div>
                 <RouterLink
@@ -44,6 +55,8 @@ const feedback = reactive({
     title: '',
     description: '',
     datetime: '',
+    rating: 0,
+    service: '',
     isLoaded: false
 });
 
@@ -58,6 +71,8 @@ onBeforeMount(() => {
             feedback.title = feedbackResponseData.title;
             feedback.description = feedbackResponseData.description;
             feedback.datetime = feedbackResponseData.datetime;
+            feedback.rating = feedbackResponseData.rating;
+            feedback.service = feedbackResponseData.service;
             feedback.isLoaded = true;
         }).catch(error => {
             alert(error);
@@ -68,5 +83,7 @@ interface FeedbackResponse {
     title: string;
     description: string;
     datetime: string;
+    rating: number;
+    service: string;
 }
 </script>

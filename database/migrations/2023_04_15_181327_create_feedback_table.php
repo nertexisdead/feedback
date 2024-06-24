@@ -12,6 +12,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
+            $table->dateTime('datetime')->nullable();
+            $table->string('service')->nullable();
+            $table->integer('rating')->nullable();
             $table->timestamps();
         });
     }
